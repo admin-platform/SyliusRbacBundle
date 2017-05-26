@@ -30,12 +30,4 @@ class SyliusRbacBundle extends AbstractResourceBundle
             SyliusResourceBundle::DRIVER_DOCTRINE_ORM,
         ];
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getModelNamespace()
-    {
-        return 'Sylius\Component\Rbac\Model';
-    }
 }

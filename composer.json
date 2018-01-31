@@ -20,16 +20,16 @@
         }
     ],
     "require": {
-        "php": "^5.6|^7.0",
+        "php": "^7.1",
 
         "doctrine/doctrine-cache-bundle": "~1.0",
-        "sylius/rbac": "^1.0@beta",
-        "sylius/resource-bundle": "^1.0@beta",
+        "sylius/rbac": "^1.0@dev",
+        "sylius/resource-bundle": "^1.0",
         "symfony/framework-bundle": "^3.2"
     },
     "require-dev": {
         "phpspec/phpspec": "^3.0",
-        "doctrine/orm": "^2.4.8,<2.5",
+        "doctrine/orm": "~2.5.0",
         "symfony/form": "^3.2",
         "twig/twig": "^1.0"
     },
@@ -48,6 +48,10 @@
         {
             "type": "path",
             "url": "../../*/*"
+        },
+        {
+            "type": "git",
+            "url": "git@github.com:admin-platform/Rbac.git"
         }
     ],
     "extra": {

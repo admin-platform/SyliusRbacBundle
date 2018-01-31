@@ -78,6 +78,17 @@
             <argument type="service" id="sylius.factory.role" />
             <argument type="service" id="sylius.repository.role" />
         </service>
+
+        <service id="sylius.rbac.form_type.permission_entity" class="Sylius\Bundle\RbacBundle\Form\Type\PermissionEntityType">
+            <argument>%sylius.model.permission.class%</argument>
+            <tag name="form.type"/>
+        </service>
+
+        <service id="sylius.rbac.form_type.role_entity" class="Sylius\Bundle\RbacBundle\Form\Type\RoleEntityType">
+            <argument>%sylius.model.role.class%</argument>
+            <tag name="form.type"/>
+        </service>
+
     </services>
 
 </container>

@@ -14,9 +14,9 @@ namespace Sylius\Bundle\RbacBundle\Form\Type;
 use Sylius\Bundle\RbacBundle\Form\EventSubscriber\AddParentFormSubscriber;
 use Sylius\Bundle\ResourceBundle\Form\EventSubscriber\AddCodeFormSubscriber;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * RBAC Role form type.
@@ -56,7 +56,7 @@ class RoleType extends AbstractResourceType
             )
             ->add(
                 'permissions',
-                PermissionChoiceType::class,
+                PermissionEntityType::class,
                 [
                     'required' => false,
                     'multiple' => true,

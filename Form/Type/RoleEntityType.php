@@ -12,7 +12,8 @@
 namespace Sylius\Bundle\RbacBundle\Form\Type;
 
 use Doctrine\ORM\EntityRepository;
-use Sylius\Bundle\ResourceBundle\Form\Type\ResourceChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -20,16 +21,43 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @author Paweł Jędrzejewski <pawel@sylius.org>
  */
-class RoleEntityType extends ResourceChoiceType
+class RoleEntityType extends AbstractType
 {
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        parent::configureOptions($resolver);
+    /**
+     * @var string
+     */
+    private $class;
 
-        $resolver->setDefaults([
-            'query_builder' => function (EntityRepository $repository) {
-                return $repository->createQueryBuilder('o')->orderBy('o.left', 'asc');
-            },
-        ]);
+    /**
+     * RoleEntityType constructor.
+     *
+     * @param string $class
+     */
+    public function __construct(string $class)
+    {
+        $this->class = $class;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults(
+            [
+                'class' => $this->class,
+                'query_builder' => function (EntityRepository $repository) {
+                    return $repository->createQueryBuilder('o')->orderBy('o.left', 'asc');
+                },
+            ]
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent(): string
+    {
+        return EntityType::class;
     }
 }

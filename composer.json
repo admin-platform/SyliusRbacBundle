@@ -1,5 +1,5 @@
 {
-    "name": "sylius/rbac-bundle",
+    "name": "admin-platform/rbac-bundle",
     "type": "symfony-bundle",
     "description": "Symfony2 Role-Based-Access-Control",
     "keywords": ["security", "rbac", "roles", "permissions"],
@@ -23,7 +23,7 @@
         "php": "^7.1",
 
         "doctrine/doctrine-cache-bundle": "~1.0",
-        "sylius/rbac": "^1.0@dev",
+        "admin-platform/rbac": "^1.0@dev",
         "sylius/resource-bundle": "^1.0",
         "symfony/framework-bundle": "^3.2"
     },
@@ -48,10 +48,6 @@
         {
             "type": "path",
             "url": "../../*/*"
-        },
-        {
-            "type": "git",
-            "url": "git@github.com:admin-platform/Rbac.git"
         }
     ],
     "extra": {

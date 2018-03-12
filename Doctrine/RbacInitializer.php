@@ -13,6 +13,7 @@ namespace Sylius\Bundle\RbacBundle\Doctrine;
 
 use Doctrine\ORM\NonUniqueResultException;
 use Sylius\Component\Resource\Factory\FactoryInterface;
+use Sylius\Component\Resource\Metadata\RegistryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -38,7 +39,24 @@ class RbacInitializer
     private $roleFactory;
     private $roleRepository;
 
+    /**
+     * @var RegistryInterface
+     */
+    private $resourceRegistry;
+
+    /**
+     * @var array
+     */
+    private $generateResourcePermissions;
+
+    /**
+     * @var null|string
+     */
+    private $generateResourceGroupPermission;
+
     public function __construct(
+        array $generateResourcePermissions,
+        ?string $generateResourceGroupPermission,
         array $permissions,
         array $permissionsHierarchy,
         $permissionManager,
@@ -48,8 +66,13 @@ class RbacInitializer
         array $rolesHierarchy,
         $roleManager,
         FactoryInterface $roleFactory,
-        RepositoryInterface $roleRepository
+        RepositoryInterface $roleRepository,
+        RegistryInterface $resourceRegistry
     ) {
+        $this->resourceRegistry = $resourceRegistry;
+        $this->generateResourcePermissions = $generateResourcePermissions;
+        $this->generateResourceGroupPermission = $generateResourceGroupPermission;
+
         $this->permissions = $permissions;
         $this->permissionsHierarchy = $permissionsHierarchy;
         $this->permissionFactory = $permissionFactory;
@@ -66,6 +89,7 @@ class RbacInitializer
     public function initialize(OutputInterface $output = null)
     {
         try {
+            $this->createResourcePermissions();
             $this->initializePermissions($output);
             $this->initializeRoles($output);
         } catch (NonUniqueResultException $exception) {
@@ -171,5 +195,49 @@ class RbacInitializer
         }
 
         $this->roleManager->flush();
+    }
+
+    /**
+     */
+    private function createResourcePermissions(): void
+    {
+        $manageName = ucfirst(str_replace('_', ' ', $this->generateResourceGroupPermission));
+
+        foreach ($this->resourceRegistry->getAll() as $resource) {
+            $prefix = $resource->getAlias();
+            $name = str_replace('_', ' ', $resource->getName());
+
+            $group = [];
+            foreach ($this->generateResourcePermissions as $permission) {
+                $code = sprintf('%s.%s', $prefix, $permission);
+                $group[] = $code;
+
+                if (isset($this->permissions[$code])) {
+                    continue;
+                }
+
+                $this->permissions[$code] = sprintf(
+                    '%s %s',
+                    ucfirst(str_replace('_', ' ', $permission)),
+                    $name
+                );
+            }
+
+            if (null === $this->generateResourceGroupPermission || isset($this->permissions[$prefix])) {
+                continue;
+            }
+
+            $this->permissions[$prefix] = sprintf(
+                '%s %s',
+                $manageName,
+                $name
+            );
+
+            if (empty($group) || isset($this->permissionsHierarchy[$prefix])) {
+                continue;
+            }
+
+            $this->permissionsHierarchy[$prefix] = $group;
+        }
     }
 }

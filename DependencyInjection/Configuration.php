@@ -21,6 +21,7 @@ use Sylius\Component\Rbac\Model\PermissionInterface;
 use Sylius\Component\Rbac\Model\Role;
 use Sylius\Component\Rbac\Model\RoleInterface;
 use Sylius\Component\Resource\Factory\Factory;
+use Sylius\Component\Resource\ResourceActions;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -49,6 +50,20 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('authorization_checker')->defaultValue('sylius.authorization_checker.default')->end()
                 ->scalarNode('identity_provider')->defaultValue('sylius.authorization_identity_provider.security')->end()
                 ->scalarNode('permission_map')->defaultValue('sylius.permission_map.cached')->end()
+                ->arrayNode('generate_resource_permissions')
+                    ->defaultValue(
+                        [
+                            ResourceActions::INDEX,
+                            ResourceActions::SHOW,
+                            ResourceActions::CREATE,
+                            ResourceActions::UPDATE,
+                            ResourceActions::DELETE,
+                            ResourceActions::BULK_DELETE,
+                        ]
+                    )
+                    ->prototype('scalar')->cannotBeEmpty()->end()
+                ->end()
+                ->scalarNode('generate_resource_permissions_group')->defaultValue('manage')->end()
                 ->arrayNode('security_roles')
                     ->useAttributeAsKey('id')
                     ->prototype('scalar')

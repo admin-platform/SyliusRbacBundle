@@ -29,11 +29,14 @@ class AddParentFormSubscriber implements EventSubscriberInterface
     private $type;
 
     /**
-     * @param string $type
+     * @var string
      */
-    public function __construct($type)
+    private $name;
+
+    public function __construct(string $type, string $name)
     {
         $this->type = $type;
+        $this->name = $name;
     }
 
     /**
@@ -68,8 +71,8 @@ class AddParentFormSubscriber implements EventSubscriberInterface
         $form = $event->getForm();
         $form->add(
             'parent',
-            sprintf('sylius_%s_choice', $this->type),
-            ['label' => sprintf('sylius.form.%s.parent', $this->type)]
+            $this->type,
+            ['label' => sprintf('sylius.form.%s.parent', $this->name)]
         );
     }
 }

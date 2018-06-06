@@ -46,8 +46,8 @@ class RoleType extends AbstractResourceType
                 ]
             )
             ->add(
+                'securityRoles',
                 SecurityRoleChoiceType::class,
-                'sylius_security_role_choice',
                 [
 
                     'required' => false,
@@ -65,7 +65,7 @@ class RoleType extends AbstractResourceType
                 ]
             )
             ->addEventSubscriber(new AddCodeFormSubscriber())
-            ->addEventSubscriber(new AddParentFormSubscriber('role'))
+            ->addEventSubscriber(new AddParentFormSubscriber(RoleChoiceType::class, 'role'))
         ;
     }
 

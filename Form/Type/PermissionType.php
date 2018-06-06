@@ -38,7 +38,7 @@ class PermissionType extends AbstractResourceType
                 ]
             )
             ->addEventSubscriber(new AddCodeFormSubscriber())
-            ->addEventSubscriber(new AddParentFormSubscriber('permission'))
+            ->addEventSubscriber(new AddParentFormSubscriber(PermissionEntityType::class, 'permission'))
         ;
     }
 

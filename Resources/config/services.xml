@@ -16,6 +16,10 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services
                                http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <imports>
+        <import resource="services/form.xml" />
+    </imports>
+
     <parameters>
         <parameter key="sylius.authorization_identity_provider.security.class">Sylius\Bundle\RbacBundle\Provider\SecurityIdentityProvider</parameter>
         <parameter key="sylius.authorization_checker.default.class">Sylius\Component\Rbac\Authorization\AuthorizationChecker</parameter>
@@ -24,7 +28,6 @@
         <parameter key="sylius.permissions_resolver.class">Sylius\Component\Rbac\Resolver\NestedSetPermissionsResolver</parameter>
         <parameter key="sylius.permission_map.default.class">Sylius\Component\Rbac\Authorization\PermissionMap</parameter>
         <parameter key="sylius.permission_map.cached.class">Sylius\Component\Rbac\Authorization\CachedPermissionMap</parameter>
-        <parameter key="sylius.form.type.security_role_choice.class">Sylius\Bundle\RbacBundle\Form\Type\SecurityRoleChoiceType</parameter>
         <parameter key="sylius.rbac.initializer.class">Sylius\Bundle\RbacBundle\Doctrine\RbacInitializer</parameter>
     </parameters>
 
@@ -32,17 +35,21 @@
         <service id="sylius.authorization_identity_provider.security" class="%sylius.authorization_identity_provider.security.class%">
             <argument type="service" id="security.token_storage" />
         </service>
+
         <service id="sylius.authorization_checker.default" class="%sylius.authorization_checker.default.class%">
             <argument type="service" id="sylius.authorization_identity_provider" />
             <argument type="service" id="sylius.permission_map" />
             <argument type="service" id="sylius.roles_resolver" />
         </service>
+
         <service id="sylius.permission_provider" class="%sylius.permission_provider.class%">
             <argument type="service" id="sylius.repository.permission" />
         </service>
+
         <service id="sylius.roles_resolver" class="%sylius.roles_resolver.class%">
             <argument type="service" id="sylius.repository.role" />
         </service>
+
         <service id="sylius.permissions_resolver" class="%sylius.permissions_resolver.class%">
             <argument type="service" id="sylius.repository.permission" />
         </service>
@@ -51,19 +58,10 @@
             <argument type="service" id="sylius.permission_provider" />
             <argument type="service" id="sylius.permissions_resolver" />
         </service>
+
         <service id="sylius.permission_map.cached" class="%sylius.permission_map.cached.class%">
             <argument type="service" id="sylius.permission_map.default" />
             <argument type="service" id="doctrine_cache.providers.sylius_rbac" />
-        </service>
-
-        <service id="sylius.form.type.security_role_choice" class="%sylius.form.type.security_role_choice.class%">
-            <argument>%sylius.rbac.security_roles%</argument>
-            <tag name="form.type" alias="sylius_security_role_choice" />
-        </service>
-
-        <service class="Sylius\Bundle\RbacBundle\Form\Type\RoleChoiceType" id="sylius_rbac.form_type.role_choice">
-            <argument id="sylius.repository.role" type="service"/>
-            <tag name="form.type"/>
         </service>
 
         <service id="sylius.rbac.initializer" class="%sylius.rbac.initializer.class%">
@@ -81,17 +79,6 @@
             <argument type="service" id="sylius.repository.role" />
             <argument type="service" id="sylius.resource_registry" />
         </service>
-
-        <service id="sylius.rbac.form_type.permission_entity" class="Sylius\Bundle\RbacBundle\Form\Type\PermissionEntityType">
-            <argument>%sylius.model.permission.class%</argument>
-            <tag name="form.type"/>
-        </service>
-
-        <service id="sylius.rbac.form_type.role_entity" class="Sylius\Bundle\RbacBundle\Form\Type\RoleEntityType">
-            <argument>%sylius.model.role.class%</argument>
-            <tag name="form.type"/>
-        </service>
-
     </services>
 
 </container>

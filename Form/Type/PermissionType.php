@@ -38,14 +38,14 @@ class PermissionType extends AbstractResourceType
                 ]
             )
             ->addEventSubscriber(new AddCodeFormSubscriber())
-            ->addEventSubscriber(new AddParentFormSubscriber('permission'))
+            ->addEventSubscriber(new AddParentFormSubscriber(PermissionEntityType::class, 'permission'))
         ;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'sylius_permission';
     }

@@ -11,6 +11,7 @@
 
 namespace Sylius\Bundle\RbacBundle\Command;
 
+use Sylius\Bundle\RbacBundle\Doctrine\RbacInitializer;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

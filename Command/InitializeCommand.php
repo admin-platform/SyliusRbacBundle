@@ -1,25 +1,19 @@
-<?php
-
-/*
- * This file is part of the Sylius package.
- *
- * (c) Paweł Jędrzejewski
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-namespace Sylius\Bundle\RbacBundle\Command;
-
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-
-/**
- * @author Paweł Jędrzejewski <pawel@sylius.org>
- */
 class InitializeCommand extends ContainerAwareCommand
 {
+    private $rbacInitializer;
+
+    /**
+     * InitializeCommand constructor.
+     * @param null|string $name
+     * @param RbacInitializer $rbacInitializer
+     */
+    public function __construct(?string $name = null, RbacInitializer $rbacInitializer)
+    {
+        parent::__construct($name);
+        $this->rbacInitializer = $rbacInitializer;
+    }
+
+
     /**
      * {@inheritdoc}
      */
@@ -31,8 +25,7 @@ class InitializeCommand extends ContainerAwareCommand
             ->setHelp(<<<EOT
 The <info>%command.name%</info> command initializes default RBAC setup.
 EOT
-            )
-        ;
+            );
     }
 
     /**
@@ -41,10 +34,7 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('Initializing Sylius RBAC roles and permissions.');
-
-        $initializer = $this->getContainer()->get('sylius.rbac.initializer');
-        $initializer->initialize($output);
-
+        $this->rbacInitializer->initialize($output);
         $output->writeln('<info>Completed!</info>');
     }
 }

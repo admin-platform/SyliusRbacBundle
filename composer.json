@@ -25,7 +25,7 @@
         "doctrine/doctrine-cache-bundle": "~1.0",
         "admin-platform/rbac": "^1.0",
         "sylius/resource-bundle": "^1.0",
-        "symfony/framework-bundle": "^3.2"
+        "symfony/framework-bundle": "^3.2|^4.1.1"
     },
     "require-dev": {
         "phpspec/phpspec": "^3.0",

@@ -46,9 +46,4 @@ final class RoleTypeSpec extends ObjectBehavior
 
         $this->configureOptions($resolver);
     }
-
-    function it_has_valid_name()
-    {
-        $this->getName()->shouldReturn('sylius_role');
-    }
 }

@@ -13,6 +13,7 @@ namespace spec\Sylius\Bundle\RbacBundle\Form\EventSubscriber;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Sylius\Bundle\RbacBundle\Form\Type\RoleChoiceType;
 use Sylius\Component\Rbac\Model\RoleInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
@@ -27,7 +28,7 @@ final class AddParentFormSubscriberSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith('role');
+        $this->beConstructedWith(RoleChoiceType::class, 'role');
     }
 
     function it_is_initializable()
@@ -53,7 +54,7 @@ final class AddParentFormSubscriberSpec extends ObjectBehavior
         $role->getId()->willReturn(null);
         $role->getParent()->willReturn(null);
 
-        $form->add('parent', 'sylius_role_choice', Argument::cetera())->shouldBeCalled();
+        $form->add('parent', RoleChoiceType::class, Argument::cetera())->shouldBeCalled();
 
         $this->preSetData($event);
     }
@@ -66,7 +67,7 @@ final class AddParentFormSubscriberSpec extends ObjectBehavior
         $role->getId()->willReturn(112);
         $role->getParent()->willReturn(Argument::type(RoleInterface::class));
 
-        $form->add('parent', 'sylius_role_choice', Argument::cetera())->shouldBeCalled();
+        $form->add('parent', RoleChoiceType::class, Argument::cetera())->shouldBeCalled();
 
         $this->preSetData($event);
     }
@@ -79,7 +80,7 @@ final class AddParentFormSubscriberSpec extends ObjectBehavior
         $role->getId()->willReturn(null);
         $role->getParent()->willReturn(Argument::type(RoleInterface::class));
 
-        $form->add('parent', 'sylius_role_choice', Argument::cetera())->shouldBeCalled();
+        $form->add('parent', RoleChoiceType::class, Argument::cetera())->shouldBeCalled();
 
         $this->preSetData($event);
     }
@@ -92,7 +93,7 @@ final class AddParentFormSubscriberSpec extends ObjectBehavior
         $role->getId()->willReturn(112);
         $role->getParent()->willReturn(null);
 
-        $form->add('parent', 'sylius_role_choice', Argument::cetera())->shouldNotBeCalled();
+        $form->add('parent', RoleChoiceType::class, Argument::cetera())->shouldNotBeCalled();
 
         $this->preSetData($event);
     }
@@ -100,7 +101,7 @@ final class AddParentFormSubscriberSpec extends ObjectBehavior
     function it_does_not_add_parent_if_resource_is_not_set(FormEvent $event, FormInterface $form)
     {
         $event->getData()->willReturn(null);
-        $form->add('parent', 'sylius_role_choice', Argument::cetera())->shouldNotBeCalled();
+        $form->add('parent', RoleChoiceType::class, Argument::cetera())->shouldNotBeCalled();
         $this->preSetData($event);
     }
 

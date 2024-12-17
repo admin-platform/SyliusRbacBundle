@@ -23,8 +23,8 @@
         "php": "^7.4 || ^8.0",
         "admin-platform/rbac": "^1.0",
         "sylius/resource-bundle": "^1.0",
-        "symfony/framework-bundle": "^5.0 || ^6.0",
-        "symfony/cache": "^5.0 || ^6.0"
+        "symfony/framework-bundle": "^5.0 || ^6.0 || ^7.0",
+        "symfony/cache": "^5.0 || ^6.0 || ^7.0"
     },
     "require-dev": {
         "phpspec/phpspec": "^3.0|^7.0",

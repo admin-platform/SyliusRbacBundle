@@ -12,12 +12,11 @@
 namespace Sylius\Bundle\RbacBundle\Templating\Helper;
 
 use Sylius\Component\Rbac\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Templating\Helper\Helper;
 
 /**
  * @author Paweł Jędrzejewski <pawel@sylius.org>
  */
-class RbacHelper extends Helper
+class RbacHelper
 {
     /**
      * @var AuthorizationCheckerInterface
